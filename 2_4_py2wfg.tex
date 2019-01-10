@@ -124,6 +124,14 @@ The final implementation consisted of standalone hosts that user can create and 
 
 \subsubsection{Unit Testing}
 \label{sec:unittest}
+\paragraph{}
+After building the simulator, a need arose to build a verification framework to test the translator and simulator libraries against new changes. To meet this requirement, a number of most used basic operators and a pair of complex WFG designs were put together to form a unit testing framework, which can be instantly called and the designs would be automatically verified and a report will be displayed. An exaple report is given in Figure \ref{Fig:utest}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.5]{figures/utest.png}
+    \caption{Unit test framework report\label{Fig:utest}}\vspace{-4mm}
+    \end{figure}
 
 \subsubsection{International Testing}
 \paragraph{}
