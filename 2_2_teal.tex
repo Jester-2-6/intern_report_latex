@@ -25,6 +25,7 @@ The Figure~\ref{Fig:dpustruct} is a comprehensive illustration of the structure 
     \end{figure}
 
 \subsubsection{SoC Perspective}
+\label{sec:socper}
 \paragraph{}
 The Teal processing accelerator is essentially integrated into a System-on-a-Chip(SoC). As shown in the Figure~\ref{Fig:socpers} it is connected to processor SoC using streaming AXI interfaces. It has a direct connection toward high speed IO streams. The DMA controller (refer Figure~\ref{Fig:socpers}) is the key connector between external DRAM internal Block RAMs of Teal. The accelerator itself is demand driven, meaning it will stay at sleep state unless instructed otherwise. The importance of this viewpoint was important to me as some of the design work carried out were finding a way to simulate DMA inputs and outputs. Since accessing data from external RAMs is through DMA ’Channels’, some of the work related to improvements in the DMA engine were carried out during my project executions. 
 
