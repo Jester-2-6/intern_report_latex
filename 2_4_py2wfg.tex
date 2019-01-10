@@ -122,11 +122,14 @@ DMA controller needs to be capable of communicating with an external host and ma
 \paragraph{}
 The final implementation consisted of standalone hosts that user can create and link to the channels of the design. Then the host would have R/W queues for each channel which it would properly execute as the time in the simulator passes by. This allows the user to freely schedule the host behavior without considering complex timing constraints. This design was successfully integrated to the simulator and it got accepted by the SDK team as a capable tool.
 
+\subsubsection{Unit Testing}
+\label{sec:unittest}
+
 \subsubsection{International Testing}
 \paragraph{}
 To test out the translator/Simulator functionality, I was facilitated with a testing team consisting of people working from different countries including USA and China.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.5]{figures/global_team.jpg}
     \caption{Communications with the overseas testing team\label{Fig:globalteam}}\vspace{-4mm}
