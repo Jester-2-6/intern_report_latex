@@ -86,6 +86,12 @@ These are somewhat similar to wires. They are used to interconnect modules and p
 The simulation of flow graph files are now done through WFGsim (section \ref{sec:wfgsim}). This platform is very complex and simulating a design on it takes a lot of overhead. To avoid this, an idea came up to add the ability to simulate Flow Graph designs on the Py2WFG library itself. This would allow the user to quickly write up a design on python and without exiting the python shell, they could quickly and efficiently simulate the design. 
 
 \paragraph{}
+DPU chip datapaths are 8 bit buses. To represent the data moving through these buses, numpy was integrated to the design. This way, should a bus overflow, the value on it will restart from zero and cycle back. Since numpy has easy signed-unsigned conversion syntax, the heavy lifting of number processing could be done through the optimized algorithms of numpy. 
+
+\paragraph{}
+when the simulation is initiated, the objects built in the script will form a directed acyclic graph which represents the Wave Flow Graph itself. The data will be injected from the input ports and the Simulator will let the data flow through the graph and learn the path the data takes. this is repeated as many times as necessary to obtain the simulation. 
+
+\paragraph{}
 Before calling up the simulator, if you need to test your designs against custom inputs, you need to define them in a special file called a input/output vector (iov) file.
 
 \begin{figure}[H]
@@ -133,6 +139,12 @@ After building the simulator, a need arose to build a verification framework to 
     \caption{Unit test framework report\label{Fig:utest}}\vspace{-4mm}
     \end{figure}
 
+\paragraph{}
+To build this, one of the main issues was generating suitable reference iov files. These need to have thousands of random numbers to feed in to the module under test and also the correct answers that it should produce. The catch is that we cannot use the module to generate answers since it is not properly tested yet. 
+
+\paragraph{}
+To overcome this problem, I designed a series of python scripts that would read the iov file and model the necessary operation with normal sequential programming. They were hand coded and tested for precision by checking random entries and redoing the calculation with a calculator or python interactive shell.
+
 \subsubsection{International Testing}
 \paragraph{}
 To test out the translator/Simulator functionality, I was facilitated with a testing team consisting of people working from different countries including USA and China.
@@ -145,3 +157,10 @@ To test out the translator/Simulator functionality, I was facilitated with a tes
 
 \paragraph{}
 This testing team was always helpful and efficiently reported whatever issues that the original designs had and came up with suggestions on best ways to solve the problems. They were a novel experience to me since I had never worked with a team scattered around the globe. It was rather efficient due to the software delivery system Wave has in place, allowing me to quickly deliver a fully tested builds of software to people in USA or China.
+
+\subsubsection{Shortcomings}
+\paragraph{}
+The project did have its ups and downs. One of the most prominent letdowns is the fact that the library uses python function 'deepcopy'. This function makes recursive copies of objects and stores them in the device memory. While this was necessary for the simulation structure, it can cause memory overflows when simulating very large designs.
+
+\paragraph{}
+Although I completed and handed over the project, there was no time for deep optimization. This means that while it works fine for testing uses, when time becomes an issue, there is a lot of room for improvements. I believe that when the project is developed further, optimizations will be included and it will become even faster.

@@ -37,6 +37,15 @@ Wave computing uses GitLab as the main version control software. Since the use o
 \paragraph{}
 Wave computing uses Jenkins as the test base for their automated testing procedure. Use of Jenkins in testing was an entirely new experience for me. A test run on Jenkins covered up all tests that are needed to be run on any wave flow graph design. After compilation and verification of the functionality of each wave flow graph design I was requested to run a mandatory test done on Jenkins before merging it with the main design of the master. In the event of failure of any of the designs I was assigned to investigate the reasons, rerun tests and make sure that the design was fully functional before engaging it with the main design. 
 
+\begin{figure}[H]
+    \centering  
+    \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.6]{figures/jenkins.png}
+    \caption{Jenkins user interface\label{Fig:jenk}}\vspace{-4mm}
+    \end{figure}
+
+\paragraph{}
+Figure \ref{Fig:jenk} shows Jenkins after a branch had two builds, one that passed the tests (Green) and one that failed in the middle (Red). It also shows the branch name, build/test times and that it belongs to the WFE repository.
+
 \subsubsection{Confluence}
 \paragraph{}
 Documentation of all Wave Computing related details are maintained in a Confluence page. I witnessed the importance of documentation while exploring various archives of Wave design development tools. I realized the downside to apparent dissatisfaction among the developers in maintaining properly updated archives of software development projects. I ran into a number of troubles due to outdated or insufficiently developed documents, specially about the DMA engine of the WFGsim. This contained a number of conflicted documents scattered around the Confluence site. However, I managed to gather these documents and extract a final definition of the DMA engine and build a replacement on my own.
