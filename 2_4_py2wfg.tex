@@ -4,7 +4,7 @@
 \subsection{Py2WFG: A better way to write Wave Flow Graph}
 \subsubsection{Python Vs. WFG}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.8]{figures/py_eg.jpg}
     \caption{Typical Python code snippet\label{Fig:pyeg}}\vspace{-4mm}
@@ -25,7 +25,7 @@ WFG was created with one purpose and one purpose only in mind, Programming the W
 \paragraph{}
 A solution was created by putting the best of both worlds together. The idea is to create a python 'sleeve' to cover up the WFG interface and present the user with a way to interact with python and get WFG level results. The user will now write up the script and when he runs it, it will output a fully optimized WFG script. 
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.6]{figures/py2wfg_src.jpg}
     \caption{Part of the Py2WFG source code\label{Fig:py2src}}\vspace{-4mm}
@@ -35,7 +35,7 @@ A solution was created by putting the best of both worlds together. The idea is 
 \paragraph{}
 The basic idea for this library is derived from Tensorflow~\cite{tflow}, which is a python library that allows easy neural net design using a python library. The user will still need a sufficient knowledge on WFG syntax to use the library. But it will eliminate the hassles of writing a slightly-above-assembly language scripts by hand. The script that user needs to write is similar to the one showed in Figure~\ref{Fig:py2eg}. The library needs to be imported in to the script, Then Modules can be created from the wMod class in the library. These module 'husks' are then filled with dataflow operations as needed. When complete, issuing the makeWFG command will write a full WFG script that can be later integrated into the existing wave design flow.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.7]{figures/py2wfg_eg.jpg}
     \caption{Example Py2WFG script\label{Fig:py2eg}}\vspace{-4mm}
@@ -44,7 +44,7 @@ The basic idea for this library is derived from Tensorflow~\cite{tflow}, which i
 \paragraph{}
 Running the example script shown in Figure~\ref{Fig:py2eg} will output a WFG file that contains the operations represented in the script, which is shown in Figure~\ref{Fig:wfgout}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.5]{figures/wfg_out.jpg}
     \caption{Output of the Py2WFG code from Figure~\ref{Fig:py2eg}\label{Fig:wfgout}}\vspace{-4mm}
@@ -88,19 +88,19 @@ The simulation of flow graph files are now done through WFGsim (section \ref{sec
 \paragraph{}
 Before calling up the simulator, if you need to test your designs against custom inputs, you need to define them in a special file called a input/output vector (iov) file.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.4]{figures/iov.jpg}
     \caption{A typical IOV file\label{Fig:iov}}\vspace{-4mm}
     \end{figure}
 
 \paragraph{}
-The values in Figure~\ref{Fig:iov} show the I/O values to and from the design in each tick the design was run for. The values that start as '0x' are input values, fed in hexadecimal format. Other values are the outputs which are in the decimal format. this is how WFGsim works, taking values in hexadecimalformat and outputting results in decimal. 
+The values in Figure~\ref{Fig:iov} show the I/O values to and from the design in each tick the design was run for. The values that start as '0x' are input values, fed in hexadecimal format. Other values are the outputs which are in the decimal format. this is how WFGsim works, taking values in hexadecimal format and outputting results in decimal. 
 
 \paragraph{}
 Py2WFGsim can accept values in any base but it is also configured to mimic the behavior of WFGsim by default. It will look for this iov file upon startup, and if found, will simulate the design with those inputs and if unable to find this file, will generate a user configurable number of random input vectors (1000 by default) and run the simulation on them. User also has the option to define expected outputs for a given set of inputs and test it against the actual outputs. This makes Py2WFGsim a strong verification tool.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.3]{figures/sim_result.png}
     \caption{Py2WFGsim user interface\label{Fig:simresult}}\vspace{-4mm}
@@ -110,7 +110,7 @@ Py2WFGsim can accept values in any base but it is also configured to mimic the b
 \paragraph{}
 The last part of the Project was implementing the DMA engine which was also the most controversial part since even now the engineers are having trouble with how this works. It is also known to slow down WFGsim and cause crashes and mismatches of all kind.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.5]{figures/dma_path.jpg}
     \caption{Wave DPU DMA path\label{Fig:dmapath}}\vspace{-4mm}
@@ -125,7 +125,7 @@ The final implementation consisted of standalone hosts that user can create and 
 \subsubsection{Unit Testing}
 \label{sec:unittest}
 \paragraph{}
-After building the simulator, a need arose to build a verification framework to test the translator and simulator libraries against new changes. To meet this requirement, a number of most used basic operators and a pair of complex WFG designs were put together to form a unit testing framework, which can be instantly called and the designs would be automatically verified and a report will be displayed. An exaple report is given in Figure \ref{Fig:utest}
+After building the simulator, a need arose to build a verification framework to test the translator and simulator libraries against new changes. To meet this requirement, a number of most used basic operators and a pair of complex WFG designs were put together to form a unit testing framework, which can be instantly called and the designs would be automatically verified and a report will be displayed. An example report is given in Figure \ref{Fig:utest}
 
 \begin{figure}[H]
     \centering
