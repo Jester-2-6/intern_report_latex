@@ -1,0 +1,73 @@
+%!TEX root = ./intern_report.tex
+
+\newpage
+\subsection{Dive Framework and Wave toolchain}
+
+\subsubsection{Framework Overview}
+
+\paragraph{}
+When writing a new design for the DPU, the engineers use an in-house written API called the dive framework for testing and Verification. Due to the sheer complexity of the programs that need to be adapted to run in the DPU, the code is brought down to lower semantic levels step by step using the toolchain which consists of 5 main tools.
+
+\begin{itemize}
+    \item Wave C Compiler (WCC) - Compiles the C++ code to a WFG code 
+    \item Wave Flow Graph Simulator (WFGsim) - Simulates the flow graph and compares it with the I/O values of the C++ code
+    \item Wave Flow Graph Compiler (WFGC) - Compiles the WFG code to a Wave Assembly code
+    \item Wave Machine Simulator (WMsim) - Simulates the Wave assembly code in a virtual machine environment
+    \item Wave Assembly Compiler (WAsm) - Compiles the assembly code to an encrypted binary file format called Lantana
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.35]{figures/wave_flow.png}
+    \caption{Wave Toolchain and design flow\label{Fig:waveflow}}\vspace{-4mm}
+    \end{figure}
+
+\subsubsection{Repository Structure}
+\paragraph{}
+Different cloud folders that contains software code are known as repositories. Wave source codes are stored in five main repositories hosted in a local git server. For better identification, the tools are again divided in to two classes, Wave Front End (WFE) and Wave Back End (WBE). WCC, WFGsim and WFGC belong to the WFE while WMsim and WAsm are contained in the WBE. In the Wave source code, the code for WFE and WBE are stored in separate repositories while the code that is shared by these are stored in a third repository named wcore. Test codes are stored in the wtest repository while experimental tools are stored in the final repository, tools.
+
+\subsubsection{WCC}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.5]{figures/wavec.jpg}
+    \caption{Part of a WaveC code to be compiled on WCC\label{Fig:wavec}}\vspace{-4mm}
+    \end{figure}
+
+\paragraph{}
+Wave computing has their own version of C++ dubbed WaveC, which is C++ with added support for data channels and some more things. This language receives constant updates from a team inside wave and thus, developers must build the C language from its source code frequently. This is also true for other tools.
+
+\paragraph{}
+WCC uses a technology called LLVM~\cite{LLVM} to convert one human written code in to a different human readable code. It works by analyzing the code and simplifying it to a desired level and assembling the result back together on a predefined syntax. After simplifying the code again and again, the desired output can be obtained, which in this case is the WFG code file.
+
+\subsubsection{WFGsim}
+\label{sec:wfgsim}
+\paragraph{}
+This was the most important tool for me since my project could eventually evolve to fully replace this tool. I had to analyze this tool very thoroughly to extract functionality for the Py2WFG simulator (section \ref{sec:py2wfgsim}). 
+
+\paragraph{}
+WFGsim works by multi-thread programming on python. It initializes separate threads for DPU sections and host processors. Inside each python thread, a library called boost is used to invoke a linear C++ script. These scripts 'talk' to each other via the python interface and python interface also gives the DPU sections a sense of time by governing the order which operations are executed. This process is continued until the necessary number of 'tics' (see section \ref{sec:socper}) has elapsed and after that, the results are presented to the user in a file.
+
+\subsubsection{WFGC}
+
+\begin{figure}[H]
+    \centering  
+    \includegraphics[trim=0cm 0cm 0cm 0cm, clip=true,scale=0.5]{figures/wfg_eg.jpg}
+    \caption{Part of a WFG code to be compiled on WFGC\label{Fig:wfgeg}}\vspace{-4mm}
+    \end{figure}
+
+\paragraph{}
+WFGC also uses a LLVM to bring the WFG code (Figure~\ref{Fig:wfgeg}) down another step on the semantic level. The resulting WAC file is a little bit similar to standard assembly and is human readable. But due to the facts that it is designed to operate on a complex array of processors and has numerous timing constraints makes it hard to understand how the code exacly works. So this WAC code is used only to make very deep level optimizations.
+
+\subsubsection{WMsim}
+\paragraph{}
+WMsim simulates the WAC file in a manner similar to WFGsim. This step is used to verify the design is bug free before loading it onto the actual hardware.
+
+\subsubsection{WAsm}
+\paragraph{}
+WAsm is not yet used very much since the hardware is not finalized. But what it does is it generates a binary file which is encrypted by AES 256 military encryption to make it tamper proof. This code has the instructions for wiring the PEs together, Data steering, power management, communication and other constraints bundled with the actual program instructions. Once this is uploaded, the DPU becomes ready to use.
+
+\subsubsection{Current Situation}
+\paragraph{}
+Although the tools are being used, they are still slightly buggy. So, most of the time, LLVM outputs are not perfect. Therefore, engineers spend a lot of time editing the outputs to make their respective simulators pass the designs. This is currently the task of most of the engineers in the application team.
